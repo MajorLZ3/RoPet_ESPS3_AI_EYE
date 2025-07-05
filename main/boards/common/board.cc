@@ -8,7 +8,6 @@
 #include <esp_ota_ops.h>
 #include <esp_chip_info.h>
 #include <esp_random.h>
-
 #define TAG "Board"
 
 Board::Board() {

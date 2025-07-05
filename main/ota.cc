@@ -18,7 +18,9 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
-
+ //==================blufi=====================
+#include "doit_blufi.h"
+ //=============================================
 #define TAG "Ota"
 
 
@@ -42,7 +44,12 @@ Ota::~Ota() {
 
 std::string Ota::GetCheckVersionUrl() {
     Settings settings("wifi", false);
-    std::string url = settings.GetString("ota_url");
+     //==================blufi=====================
+    // std::string url = settings.GetString("ota_url"); //原来的
+        char ota_url[128];
+        blufi_storage_read_ota_url(ota_url);    
+        std::string url = ota_url;    
+    //=============================================
     if (url.empty()) {
         url = CONFIG_OTA_URL;
     }

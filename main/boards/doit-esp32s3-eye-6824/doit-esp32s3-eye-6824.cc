@@ -91,20 +91,20 @@ private:
                 ResetWifiConfiguration();
             }
         });
-        #if (defined(CONFIG_VB6824_OTA_SUPPORT) && CONFIG_VB6824_OTA_SUPPORT == 1)
-             boot_button_.OnDoubleClick([this]() {
-            if (esp_timer_get_time() > 20 * 1000 * 1000) {
-                ESP_LOGI(TAG, "Long press, do not enter OTA mode %ld", (uint32_t)esp_timer_get_time());
-                return;
-            }
-            audio_codec.OtaStart(0);
-        });
-        #endif
-        // boot_button_.OnDoubleClick([this]() {
-        //     auto& app = Application::GetInstance();
-        //     app.eye_style_num = (app.eye_style_num+1) % 8;
-        //     app.eye_style(app.eye_style_num);
+        // #if (defined(CONFIG_VB6824_OTA_SUPPORT) && CONFIG_VB6824_OTA_SUPPORT == 1)
+        //      boot_button_.OnDoubleClick([this]() {
+        //     if (esp_timer_get_time() > 20 * 1000 * 1000) {
+        //         ESP_LOGI(TAG, "Long press, do not enter OTA mode %ld", (uint32_t)esp_timer_get_time());
+        //         return;
+        //     }
+        //     audio_codec.OtaStart(0);
         // });
+        // #endif
+        boot_button_.OnDoubleClick([this]() {
+            auto& app = Application::GetInstance();
+            app.eye_style_num = (app.eye_style_num+1) % 8;
+            app.eye_style(app.eye_style_num);
+        });
     }
 
     // 物联网初始化，添加对 AI 可见设备
@@ -177,31 +177,45 @@ private:
 
 public:
       CompactWifiBoardLCD():boot_button_(BOOT_BUTTON_GPIO), audio_codec(CODEC_RX_GPIO, CODEC_TX_GPIO){
+        // 如果定义了CONFIG_LCD_GC9A01_160X160，则配置GPIO引脚
         #if CONFIG_LCD_GC9A01_160X160
             gpio_config_t bk_gpio_config = {
                     .pin_bit_mask = 1ULL << GC9A01_SPI1_LCD_GPIO_BL,
                     .mode = GPIO_MODE_OUTPUT,
                 };
+            // 配置GPIO引脚
             ESP_ERROR_CHECK(gpio_config(&bk_gpio_config));
+            // 设置GPIO引脚电平为高
             ESP_ERROR_CHECK(gpio_set_level(GC9A01_SPI1_LCD_GPIO_BL, 1));
         #endif
 
+        // 初始化SPI眼
         InitializeSpiEye1();
+        // 初始化GC9A01显示屏
         InitializeGc9a01DisplayEye1();
+        // 初始化按钮
         InitializeButtons();
+        // 初始化物联网
         InitializeIot();
 
+        // 设置SLEEP_GOIO引脚为上拉输入模式
         gpio_set_pull_mode(SLEEP_GOIO, GPIO_PULLUP_ONLY);
+        // 设置SLEEP_GOIO引脚为输出模式
         gpio_set_direction(SLEEP_GOIO, GPIO_MODE_OUTPUT);
+        // 设置SLEEP_GOIO引脚电平为高
         gpio_set_level(SLEEP_GOIO, 1);
 
+        // 初始化省电定时器
         InitializePowerSaveTimer();
 
+        // 设置音频编解码器唤醒回调函数
         audio_codec.OnWakeUp([this](const std::string& command) {
+            // 如果唤醒词为vb6824_get_wakeup_word()，则唤醒设备
             if (command == std::string(vb6824_get_wakeup_word())){
                 if(Application::GetInstance().GetDeviceState() != kDeviceStateListening){
                     Application::GetInstance().WakeWordInvoke("你好小智");
                 }
+            // 如果唤醒词为"开始配网"，则重置WiFi配置
             }else if (command == "开始配网"){
                 ESP_LOGI(TAG,"fff");
                 ResetWifiConfiguration();

@@ -11,6 +11,9 @@
 #include "assets/lang_config.h"
 #include "mcp_server.h"
 #include "audio_debugger.h"
+ //==================blufi=====================
+#include "doit_blufi.h"
+//===========================================
 
 #if CONFIG_USE_AUDIO_PROCESSOR
 #include "afe_audio_processor.h"
@@ -240,6 +243,13 @@ void Application::ShowActivationCode() {
     auto& message = ota_.GetActivationMessage();
     auto& code = ota_.GetActivationCode();
 
+    //==================blufi=====================
+     if(! code.empty() ) {
+        blufi_storage_write_has_config(false); // 写入没有配网
+        esp_restart();
+
+    }
+    //============================================
     struct digit_sound {
         char digit;
         const std::string_view& sound;
