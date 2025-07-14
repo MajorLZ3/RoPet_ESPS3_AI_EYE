@@ -67,7 +67,7 @@ private:
             //pmic_->PowerOff();
             //gpio_set_level(SLEEP_GOIO, 0);
             ESP_LOGI(TAG,"Not used for a long time. Shut down. Press and hold to turn on!");
-            gpio_set_level(SLEEP_GOIO, 0);
+            // gpio_set_level(SLEEP_GOIO, 0);
         });
         power_save_timer_->SetEnabled(true);
     }
