@@ -72,7 +72,7 @@ const ThemeColors LIGHT_THEME = {
 LV_FONT_DECLARE(font_awesome_30_4);
 
 
- #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311
+ #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311 || CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311_ILI9341
 LcdDisplay::LcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_handle_t panel,
             esp_lcd_panel_io_handle_t panel_io2, esp_lcd_panel_handle_t panel2, DisplayFonts fonts, int width, int height)
     :panel_io_(panel_io), panel_(panel),panel_io_2(panel_io2),panel_2(panel2),fonts_(fonts) {
@@ -177,7 +177,7 @@ SpiLcdDisplay::SpiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_h
     SetupUI();
 }
 
-#if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311
+#if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311 || CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311_ILI9341
 DualScreenDisplay::DualScreenDisplay(esp_lcd_panel_io_handle_t panel_io1, esp_lcd_panel_handle_t panel1,
     esp_lcd_panel_io_handle_t panel_io2, esp_lcd_panel_handle_t panel2,
     int width, int height, int offset_x, int offset_y,

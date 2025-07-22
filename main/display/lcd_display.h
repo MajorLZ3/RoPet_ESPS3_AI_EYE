@@ -28,7 +28,7 @@ protected:
     esp_lcd_panel_io_handle_t panel_io_ = nullptr;
     esp_lcd_panel_handle_t panel_ = nullptr;
     
-    #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311
+    #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311 || CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311_ILI9341
         esp_lcd_panel_io_handle_t panel_io_2 = nullptr;
         esp_lcd_panel_handle_t panel_2 = nullptr;
     #endif
@@ -55,7 +55,7 @@ protected:
 protected:
     // 添加protected构造函数
      // 添加protected构造函数
-    #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311
+    #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311 || CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311_ILI9341
         LcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_handle_t panel,
             esp_lcd_panel_io_handle_t panel_io2, esp_lcd_panel_handle_t panel2, DisplayFonts fonts,int width, int height);
         #endif
@@ -104,7 +104,7 @@ public:
                   DisplayFonts fonts);
 };
 
-#if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311
+#if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311 || CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311_ILI9341
 //SPI双屏驱动
 class DualScreenDisplay:public LcdDisplay {
 public:

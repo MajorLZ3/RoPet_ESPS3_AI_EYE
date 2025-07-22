@@ -10,5 +10,5 @@ set(PROJECT_VER "1.7.2")
 add_compile_options(-Wno-missing-field-initializers)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(xiaozhi)
+project(RoPet_ESPS3_AI_EYE)
 

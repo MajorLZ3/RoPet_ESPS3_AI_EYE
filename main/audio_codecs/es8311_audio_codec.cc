@@ -171,7 +171,7 @@ void Es8311AudioCodec::EnableOutput(bool enable) {
         ESP_ERROR_CHECK(esp_codec_dev_open(output_dev_, &fs));
         ESP_ERROR_CHECK(esp_codec_dev_set_out_vol(output_dev_, output_volume_));
         if (pa_pin_ != GPIO_NUM_NC) {
-            #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311 //8311魔眼板子反过来的
+            #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311 || CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311_ILI9341//8311魔眼板子反过来的
                 gpio_set_level(pa_pin_, 0);
            #else
                 gpio_set_level(pa_pin_, 1);
@@ -180,7 +180,7 @@ void Es8311AudioCodec::EnableOutput(bool enable) {
         } else {
             ESP_ERROR_CHECK(esp_codec_dev_close(output_dev_));
             if (pa_pin_ != GPIO_NUM_NC) {
-            #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311
+            #if CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311 || CONFIG_BOARD_TYPE_DOIT_ESP32S3_EYE_8311_ILI9341
                     gpio_set_level(pa_pin_, 1);
                 #else
                     gpio_set_level(pa_pin_, 0);
